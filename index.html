@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SVG to Code Converter</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='65' font-size='50' fill='white' text-anchor='middle' font-family='monospace'%3E%26lt;/%26gt;%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // This script is placed in the head to prevent a flash of unstyled content (FOUC)
+    // It checks for a saved theme in localStorage and applies it before the body renders.
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body>
+
+  <div class="theme-toggle-container">
+    <button id="theme-toggle" type="button" aria-label="Toggle theme">
+      <svg id="theme-toggle-dark-icon" class="hidden" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+      <svg id="theme-toggle-light-icon" class="hidden" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+    </button>
+  </div>
+
+  <header>
+    <h1>SVG to Code Converter</h1>
+    <p>Instantly preview your SVG and get its code.</p>
+  </header>
+
+  <main id="appContainer">
+    <div id="uploadView">
+      <div id="dropZone">
+        <input type="file" id="fileInput" accept=".svg" />
+        <div class="drop-zone-content">
+           <svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3.75 3.75M12 9.75l3.75 3.75M3 17.25V6.75A2.25 2.25 0 015.25 4.5h13.5A2.25 2.25 0 0121 6.75v10.5A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 17.25z" />
+          </svg>
+          <p>Drag & drop your SVG file here</p>
+          <p>or <span>click to browse</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="previewContainer" class="hidden">
+      <div class="preview-grid">
+        
+        <div style="display: flex; flex-direction: column;">
+          <h2 class="card-title">SVG Preview</h2>
+          <div id="svgPreviewContainer">
+            <div id="svgPreview"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+           <div class="code-card-header">
+             <h2 class="card-title">SVG Code</h2>
+             <button id="copyBtn">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a2.25 2.25 0 01-2.25 2.25h-1.5a2.25 2.25 0 01-2.25-2.25V4.5A2.25 2.25 0 019 2.25h.084m7.5 0h.008v.008h-.008V3.888zm-7.5 0h.008v.008h-.008V3.888z" /></svg>
+                <span>Copy</span>
+             </button>
+           </div>
+          <textarea id="svgCode" readonly></textarea>
+        </div>
+
+      </div>
+      <div class="center-text">
+        <button id="resetBtn">Convert Another SVG</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-card">
+        <div class="footer-grid">
+            <div>
+              <h3>About This Tool</h3>
+              <p>This tool provides a quick and easy way to preview your SVG file and copy its markup. It's built for designers who need to inspect an icon, developers debugging an SVG, or anyone curious about Scalable Vector Graphics.</p>
+            </div>
+            <div>
+              <h3>About the Developer</h3>
+              <p>This tool was created by <span>Ankit</span>, a passionate web developer dedicated to building useful and elegant applications that solve real-world problems.</p>
+            </div>
+        </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
+
