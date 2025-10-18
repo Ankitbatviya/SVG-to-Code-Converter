@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SVG to Code Converter</title>
-  
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%236366f1'/%3E%3Cpath d='M30 70 L50 30 L70 70 Z' fill='none' stroke='white' stroke-width='5'/%3E%3Ccircle cx='50' cy='55' r='10' fill='white'/%3E%3C/svg%3E">
-  
+  <title>Image to SVG Converter</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23f97316'/%3E%3Cpath d='M25 75 L50 25 L75 75 Z' stroke='white' stroke-width='5' fill='none'/%3E%3Crect x='45' y='55' width='10' height='20' fill='white'/%3E%3C/svg%3E">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css">
-  
+
   <script>
     // Inline script to prevent Flash of Unstyled Content (FOUC)
     if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -32,23 +32,24 @@
  </div>
 
  <header class="app-header">
-   <h1>SVG to Code Converter</h1>
-   <p>A modern tool to instantly preview SVG files and grab their code.</p>
+   <h1>Image to SVG Converter</h1>
+   <p>Upload a PNG or JPG to convert it into a scalable SVG file.</p>
    <nav class="page-navigation">
-     <a href="img-to-svg.html">Image to SVG Converter</a>
+     <a href="index.html">SVG to Code Converter</a>
    </nav>
  </header>
 
   <main class="converter-layout">
     <div class="input-panel">
-      <h2>Upload SVG</h2>
+      <h2>Upload Image</h2>
       <div id="dropZone">
-        <input type="file" id="fileInput" accept="image/svg+xml" />
+        <input type="file" id="fileInput" accept="image/png, image/jpeg" />
         <div class="drop-zone-content">
-          <svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3.75 3.75M12 9.75l3.75 3.75M3 17.25V6.75A2.25 2.25 0 015.25 4.5h13.5A2.25 2.25 0 0121 6.75v10.5A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 17.25z" />
-          </svg>
+           <svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+           </svg>
           <p><span>Click to browse</span> or drag & drop</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">PNG, JPG, or JPEG</p>
         </div>
       </div>
     </div>
@@ -58,32 +59,29 @@
           <svg fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
           </svg>
-          <h3>Preview & Code</h3>
-          <p>Upload an SVG file to see its preview and markup here.</p>
+          <h3>Converted SVG</h3>
+          <p>Upload an image to get a scalable SVG version.</p>
       </div>
 
       <div id="output-content" class="hidden">
-        <div>
-          <div class="card-header">
-              <h3 class="card-title">SVG Preview</h3>
-              <button id="clearBtn" class="btn btn-secondary">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" /></svg>
-                  Clear
-              </button>
-          </div>
-          <div id="svgPreviewContainer">
-              <div id="svgPreview"></div>
-          </div>
+        <div class="card-header">
+            <h3 class="card-title">SVG Preview</h3>
+            <div style="display: flex; gap: 0.5rem;">
+                <button id="downloadBtn" class="btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
+                        <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
+                    </svg>
+                    <span>Download</span>
+                 </button>
+                 <button id="clearBtn" class="btn btn-secondary">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" /></svg>
+                     Clear
+                 </button>
+            </div>
         </div>
-        <div class="code-container">
-          <div class="card-header">
-            <h3 class="card-title">SVG Code</h3>
-            <button id="copyBtn" class="btn">
-              <svg viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z" /><path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2" /></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <textarea id="svgCode" readonly></textarea>
+        <div id="svgPreviewContainer">
+            <div id="svgPreview"></div>
         </div>
       </div>
     </div>
@@ -94,7 +92,7 @@
   <footer class="app-footer">
     <p>Created by <a href="https://www.instagram.com/ankit_batviya_2.0/" target="_blank" rel="noopener noreferrer">Ankit</a> with passion.</p>
   </footer>
-
+  
   <script src="script.js" defer></script>
 </body>
 </html>
